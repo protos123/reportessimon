@@ -8,21 +8,12 @@ Reporting engine for changes in pricing and banking information for Operations L
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
 
 ### Who do I talk to? ###
 
-Repo Owner: Jesus Rincon
-Product Owner: German Giraldo
-Team: German Giraldo, Viviana Rodriguez, Jesus Rincon
+*Repo Owner: Jesus Rincon
+*Product Owner: German Giraldo
+*Team: German Giraldo, Viviana Rodriguez, Jesus Rincon
