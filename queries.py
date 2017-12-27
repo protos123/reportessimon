@@ -107,17 +107,17 @@ def controlcambios(usuarios):
     return audcambios
 #-------------------------------------------------------------------------------------------------------
 
-# Taer listado de usuarios
-users = listausuarios()
-
-# Ejecutar script de control de cambios
-cambios = controlcambios(users)
-
-# Guardar Cambios en archivo de Excel
-today = datetime.date.today()
-filename = 'Users_Report_' + str(today) + ('.xlsx')
-writer = pd.ExcelWriter(filename)
-cambios.to_excel(writer)
-writer.save()
-
-logging.warning('Saved in file %(filename)s. Process completed',{'filename':filename})
+# # Taer listado de usuarios
+# users = listausuarios()
+#
+# # Ejecutar script de control de cambios
+# cambios = controlcambios(users)
+#
+# # Guardar Cambios en archivo de Excel
+# today = datetime.date.today()
+# filename = 'Users_Report_' + str(today) + ('.xlsx')
+# writer = pd.ExcelWriter(filename)
+# cambios.to_excel(writer)
+# writer.save()
+#
+# logging.warning('Saved in file %(filename)s. Process completed',{'filename':filename})
