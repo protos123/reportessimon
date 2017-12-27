@@ -6,7 +6,7 @@ import datetime
 import numpy as np
 
 # Configurar Logger
-logging.basicConfig(filename='queries.log', level=logging.DEBUG)
+logging.basicConfig(filename='queries.log', filemode='w', level=logging.DEBUG)
 
 # Intentar Conexion a BD
 try:
@@ -24,7 +24,7 @@ except:
 def listausuarios():
     today = datetime.date.today()
     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-    print 'Searching user id with changes on ' + str(today)
+    logging.warning('Searching user id with changes on %(today)s', {'today':str(today)})
     cursor.execute("""SELECT u.usuario_id FROM audit.usuario_aud u
     inner join audit.revision_auditoria ra ON u.rev = ra.revision_id 
     inner join pps.usuario pu on (u.usuario_id=pu.usuario_id)
@@ -34,7 +34,7 @@ def listausuarios():
     usuarios = pd.DataFrame(cursor.fetchall())
     usuarios.columns = ['usuario_id']
     usuarios = usuarios.drop_duplicates()
-    print 'Search finished:' + len(usuarios) + 'have received changes'
+    logging.warning('Search finished: %(cantidad)s have received changes', {'cantidad':len(usuarios)})
     return usuarios
 
 
@@ -51,11 +51,11 @@ def controlcambios(usuarios):
     temp = []
     today = datetime.date.today()
     tomorrow=datetime.date.today() + datetime.timedelta(days=1)
-    print 'Starting check for ' + str(today)
+    logging.warning('Starting check for %(today)s', {'today':str(today)})
     audcambios = pd.DataFrame()
     for index in range(0, len(usuarios)):
         uid = usuarios[index]   # Indexar usuarios Id
-        print 'Checking user', uid
+        logging.info('Checking user %(uid)s', {'uid':uid})
         # Ejecutar consulta de fecha actual
         cursor.execute("""SELECT to_timestamp(fecha_revision/1000) as "fec_cambio", u.rev, uw.email, 
         u.usuario_id, u.nombres, u.nombre_contacto, u.url, u.direccion
@@ -93,15 +93,16 @@ def controlcambios(usuarios):
                                                   np.where(df['domicilio'] != df['domicilioprev'], 'domicilio', None))))
             df = df[df.cambio.notnull()]
             audcambios = audcambios.append(df, ignore_index=True)
-        print 'Found', len(df), 'changes'
+        logging.info('Found %(numbers)s changes',{'numbers':len(df)})
 
         # Limpiar variables iterativas
         df = df.iloc[0:0]
         cambios=cambios.iloc[0:0]
         cambiosord2=cambiosord2.iloc[0:0]
         temp=[]
-        print 'User Id',uid,'finished'
+        logging.info('User Id %(uid)s finished',{'uid':uid})
     # Eliminar Columnas innecesarias
+    logging.warning('Process Finished. Proceeding to concatenate and save')
     return audcambios
 #-------------------------------------------------------------------------------------------------------
 
@@ -117,3 +118,5 @@ filename = 'Users_Report_' + str(today) + ('.xlsx')
 writer = pd.ExcelWriter(filename)
 cambios.to_excel(writer)
 writer.save()
+
+logging.warning('Saved in file %(filename)s. Process completed',{'filename':filename})

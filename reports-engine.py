@@ -29,3 +29,4 @@ name='output'+str(date)+'.xlsx'
 writer = pd.ExcelWriter(name)
 cambios.to_excel(writer)
 writer.save()
+logging.warning('bullshit finished %(uid)s', {'uid':len(cambios)})
