@@ -12,14 +12,15 @@ except:
     logging.error('Cannot connect to database. Please run this script again')
     sys.exit()
 
-users = qp.listausuarios()
+accounts = qp.listacuentas()
 
 # Ejecutar script de control de cambios
-cambios = qp.controlcambios(users)
+if len(accounts)!=0:
+    cambios = qp.controlcambioscuentas(accounts)
 
 # Guardar Cambios en archivo de Excel
-today = datetime.date.today()
-filename = 'Users_Report_' + str(today) + ('.xlsx')
+today = datetime.date.today() - datetime.timedelta(days=1)
+filename = 'Accounts_Report_' + str(today) + ('.xlsx')
 writer = pd.ExcelWriter(filename)
 cambios.to_excel(writer)
 writer.save()
