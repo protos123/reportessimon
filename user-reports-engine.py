@@ -12,7 +12,7 @@ except:
     logging.error('Cannot connect to database. Please run this script again')
     sys.exit()
 
-start = datetime.date(2017, 6, 30)
+end = datetime.date.today() - datetime.timedelta(days=1)
 end = datetime.date(2017, 6, 30)
 days = end - start
 userchanges = pd.DataFrame()

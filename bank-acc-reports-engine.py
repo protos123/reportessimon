@@ -12,28 +12,22 @@ except:
     logging.error('Cannot connect to database. Please run this script again')
     sys.exit()
 
-for x in range(1,31):
-    today = datetime.date(2017, 11, x)
-    accounts = qp.listacuentasbancos(today)
 
-    # Ejecutar script de control de cambios
-    if len(accounts) != 0:
-        cambios = qp.controlcambioscuentasbancos(accounts,today)
-        # Guardar Cambios en archivo de Excel
-        filename = 'Bank_Accounts_Report_' + str(today) + ('.xlsx')
-        writer = pd.ExcelWriter(filename)
-        cambios.to_excel(writer)
-        writer.save()
-    else:
-        cambios = pd.DataFrame(columns=['fecha_rev', 'rev_id', 'email', 'cuenta_id', 'numero_cuenta_rec',
-                                              'titular_cuenta_rec', 'dni_titular_cuenta', 'dni_tipo_titular_cuenta',
-                                              'tipo_cuenta_rec', 'banco_id', 'swift', 'pais_cuenta_rec'])
-        cambiosord2=pd.DataFrame(columns = ['fecha_rev_prev', 'rev_id_prev', 'email_prev', 'cuenta_id_prev', 'numero_cuenta_rec_prev',
-                               'titular_cuenta_rec_prev', 'dni_titular_cuenta_prev', 'dni_tipo_titular_cuenta_prev',
-                               'tipo_cuenta_rec_prev', 'banco_id_prev', 'swift_prev', 'pais_cuenta_rec_prev','cambio'])
-        filename = 'Bank_Accounts_Report_' + str(today) + ('.xlsx')
-        audcambios = pd.concat([cambios, cambiosord2], axis=1)
-        writer = pd.ExcelWriter(filename)
-        audcambios.to_excel(writer)
-        writer.save()
-    logging.warning('Saved in file %(filename)s. Process completed',{'filename':filename})
+end = datetime.date.today() - datetime.timedelta(days=1)
+start = end - datetime.timedelta(days=6)
+days = end-start
+cambioscuentas = pd.DataFrame()
+for x in xrange(0, days.days):
+        date = start + datetime.timedelta(days=x)
+        accounts = qp.listacuentasbancos(date)
+        if len(accounts) != 0:
+            cambios = qp.controlcambioscuentasbancos(accounts, date)
+            cambioscuentas = cambioscuentas.append(cambios, ignore_index=True)
+            cambios = cambios.iloc[0:0]
+
+
+filename = 'Bank_Accounts_Changes_' + str(start) + '_to_' + str(end) + ('.xlsx')
+writer = pd.ExcelWriter(filename)
+cambioscuentas.to_excel(writer)
+writer.save()
+logging.warning('Saved in file %(filename)s. Process completed',{'filename':filename})
