@@ -3,6 +3,8 @@ import numpy as np
 import psycopg2 as db
 import logging
 import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 import datetime
 import queries as qp
 try:
