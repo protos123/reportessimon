@@ -27,7 +27,7 @@ for x in xrange(0, days.days):
 
 
 filename = 'Bank_Accounts_Changes_' + str(start) + '_to_' + str(end) + ('.xlsx')
-writer = pd.ExcelWriter(filename)
+writer = pd.ExcelWriter(filename,options={'remove_timezone': True})
 cambioscuentas.to_excel(writer)
 writer.save()
 logging.warning('Saved in file %(filename)s. Process completed',{'filename':filename})
