@@ -21,7 +21,7 @@ def listacuentas(today):
     inner join audit.revision_auditoria ra ON c.rev = ra.revision_id 
     INNER JOIN pps.cuenta pc on (c.cuenta_id=pc.cuenta_id)
     WHERE (to_timestamp(fecha_revision/1000))>=%(today)s and (to_timestamp(fecha_revision/1000))<%(tomorrow)s
-    and pc.fecha_creacion<%(today)s and c.pais_iso_3166='CO' order by c.cuenta_id""",{'today':today,'tomorrow':tomorrow})
+    and pc.fecha_creacion<%(today)s order by c.cuenta_id""",{'today':today,'tomorrow':tomorrow})
     cuentas = pd.DataFrame(cursor.fetchall())
     if len(cuentas)!=0:
         cuentas.columns = ['cuenta_id']
@@ -93,9 +93,8 @@ def controlcambioscuentas(cuentas,today):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-
-start = datetime.date(2017, 11, 01)
-end = datetime.date(2017, 12, 31)
+start = datetime.date(2018, 01, 01)
+end = datetime.date(2018, 01, 31)
 days = end - start
 pricingchanges = pd.DataFrame()
 
@@ -107,7 +106,7 @@ for x in xrange(0,days.days+1):
         pricingchanges = pricingchanges.append(cambios, ignore_index=True)
         cambios = cambios.iloc[0:0]
 
-filename = 'Pricing_changes_Nov_Dec_2017.xlsx'
+filename = 'Pricing_changes_Nov-2017_Jan-2018.xlsx'
 writer = pd.ExcelWriter(filename)
 pricingchanges.to_excel(writer)
 writer.save()

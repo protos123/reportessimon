@@ -1,1 +1,26 @@
-WARNING:root:Searching account id with changes on 2018-01-30
+WARNING:root:Searching account id with changes on 2018-01-01
+WARNING:root:Search finished: 7 have received changes
+WARNING:root:Starting check for 2018-01-01
+INFO:root:Checking account 564253
+INFO:root:Found 1 changes
+INFO:root:Account Id 564253 finished
+INFO:root:Checking account 575518
+INFO:root:Found 0 changes
+INFO:root:Account Id 575518 finished
+INFO:root:Checking account 645701
+INFO:root:Found 0 changes
+INFO:root:Account Id 645701 finished
+INFO:root:Checking account 700766
+INFO:root:Found 0 changes
+INFO:root:Account Id 700766 finished
+INFO:root:Checking account 700834
+INFO:root:Found 0 changes
+INFO:root:Account Id 700834 finished
+INFO:root:Checking account 701258
+INFO:root:Found 0 changes
+INFO:root:Account Id 701258 finished
+INFO:root:Checking account 701663
+INFO:root:Found 0 changes
+INFO:root:Account Id 701663 finished
+WARNING:root:Process Finished. Proceeding to concatenate and save
+WARNING:root:Saved in file Bank_Accounts_Changes_2018-01-01_to_2018-01-02.xlsx. Process completed
