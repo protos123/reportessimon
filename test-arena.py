@@ -1,11 +1,8 @@
 import os
 import pandas as pd
-import datetime as dt
+import datetime
 
-print dt.date.today()
-path= os.getcwd()
-files =os.listdir(path)
-print files
 
-files_xlsx=['DJRCMerchants.xlsx']
-print files_xlsx
+date=datetime.date.today()-datetime.timedelta(days=1)
+
+print date
